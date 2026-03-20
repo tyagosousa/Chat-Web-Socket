@@ -85,12 +85,6 @@
       background: #eee;
     }
 
-    .typing {
-      font-size: 12px;
-      color: #666;
-      padding: 5px 10px;
-    }
-
     .input-area {
       display: flex;
       gap: 5px;
@@ -118,10 +112,9 @@
   </div>
 
   <div id="messages" class="messages"></div>
-  <div id="typing" class="typing"></div>
 
   <div class="input-area">
-    <input id="msg" placeholder="Mensagem" oninput="handleTyping()">
+    <input id="msg" placeholder="Mensagem">
     <button onclick="sendMessage()">Enviar</button>
   </div>
 </div>
@@ -132,7 +125,6 @@
   const socket = io();
 
   let currentRoom = "";
-  let typingTimeout;
 
   function joinRoom() {
     const room = document.getElementById("room").value;
@@ -168,26 +160,6 @@
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
-
-  // 👇 DIGITANDO
-  function handleTyping() {
-    socket.emit("typing");
-
-    clearTimeout(typingTimeout);
-
-    typingTimeout = setTimeout(() => {
-      document.getElementById("typing").textContent = "";
-    }, 1000);
-  }
-
-  socket.on("typing", () => {
-    const typingDiv = document.getElementById("typing");
-    typingDiv.textContent = "Alguém está digitando...";
-
-    setTimeout(() => {
-      typingDiv.textContent = "";
-    }, 1000);
-  });
 
   socket.on("message", (data) => {
     const isMe = data.user === socket.id;
