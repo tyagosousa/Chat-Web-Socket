@@ -1,7 +1,21 @@
 const http = require("http");
 const { Server } = require("socket.io");
+const fs = require("fs");
+const path = require("path");
 
-const server = http.createServer();
+const server = http.createServer((req, res) => {
+  const filePath = path.join(__dirname, "public", "index.html");
+
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      res.writeHead(500);
+      return res.end("Erro ao carregar página");
+    }
+
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(data);
+  });
+});
 
 const io = new Server(server, {
   cors: { origin: "*" }
@@ -13,9 +27,9 @@ io.on("connection", (socket) => {
   let currentRoom = null;
 
   socket.on("joinRoom", (room) => {
-    if (currentRoom) {
-      socket.leave(currentRoom);
-    }
+    if (!room) return;
+
+    if (currentRoom) socket.leave(currentRoom);
 
     socket.join(room);
     currentRoom = room;
@@ -32,19 +46,13 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("typing", () => {
-    if (!currentRoom) return;
-
-    socket.to(currentRoom).emit("typing", {
-      user: socket.id
-    });
-  });
-
   socket.on("disconnect", () => {
     console.log("Usuário desconectado:", socket.id);
   });
 });
 
-server.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000 🚀");
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+  console.log("Servidor rodando 🚀");
 });

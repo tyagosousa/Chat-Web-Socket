@@ -5,101 +5,148 @@
   <title>Chat com Salas</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
 
-    body {
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .chat-container {
-      width: 400px;
-      height: 650px;
-      background: white;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      overflow: hidden;
-    }
+  .chat-container {
+    width: 420px;
+    height: 700px;
+    background: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    overflow: hidden;
+  }
 
-    .header {
-      background: #4facfe;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
+  .header {
+    background: linear-gradient(135deg, #4facfe, #00c6ff);
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
 
-    .top-inputs {
-      display: flex;
-      gap: 5px;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-    }
+  .top-inputs {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: #f5f7fa;
+    border-bottom: 1px solid #eee;
+  }
 
-    input {
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      flex: 1;
-    }
+  input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    flex: 1;
+    outline: none;
+    transition: 0.2s;
+  }
 
-    button {
-      padding: 8px;
-      border: none;
-      background: #4facfe;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+  input:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 5px rgba(79,172,254,0.5);
+  }
 
-    .messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
+  button {
+    padding: 10px 14px;
+    border: none;
+    background: linear-gradient(135deg, #4facfe, #00c6ff);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: bold;
+  }
 
-    .message {
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 10px;
-      max-width: 75%;
-    }
+  button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
 
-    .me {
-      background: #4facfe;
-      color: white;
-      margin-left: auto;
-    }
+  .messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #e5ddd5;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .other {
-      background: #eee;
-    }
+  .message {
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 75%;
+    font-size: 14px;
+    line-height: 1.4;
+    animation: fadeIn 0.2s ease;
+  }
 
-    .input-area {
-      display: flex;
-      gap: 5px;
-      padding: 10px;
-      border-top: 1px solid #eee;
-    }
+  .me {
+    background: #4facfe;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+  }
 
-    .input-area input {
-      flex: 1;
-    }
+  .other {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-bottom-left-radius: 2px;
+  }
 
-    .input-area button {
-      background: #00c9a7;
+  .input-area {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    background: #f5f7fa;
+    border-top: 1px solid #eee;
+  }
+
+  .input-area input {
+    flex: 1;
+  }
+
+  .input-area button {
+    background: linear-gradient(135deg, #00c9a7, #00e4a7);
+  }
+
+  .messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .messages::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
-  </style>
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -119,7 +166,7 @@
   </div>
 </div>
 
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 
 <script>
   const socket = io();
